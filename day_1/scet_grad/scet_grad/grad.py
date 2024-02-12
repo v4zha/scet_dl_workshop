@@ -45,6 +45,12 @@ class Value:
     def __rmul__(self, other: Union[int, float, 'Value']) -> "Value":
         return self * other
 
+    def __sub__(self, other: Union[int, float, 'Value']) -> "Value":
+        return self+ (other*-1)
+
+    def __rsub__(self, other: Union[int, float, 'Value']) -> "Value":
+        return other + (self*-1)
+
     def __pow__(self, other: Union[int, float, 'Value']) -> "Value":
         if isinstance(other, (int, float)):
             other = Value(value=other)
@@ -56,6 +62,14 @@ class Value:
         out._backward = _backward
         return out
     
+
+    def __true_div__(self, other: Union[int, float, 'Value']) -> "Value":
+        out = self*other**-1
+        return out
+    def __rtrue_div__(self, other: Union[int, float, 'Value']) -> "Value":
+        out = other*self**-1
+        return out
+
     def relu(self)->'Value':
         out=Value(value=max(0,self.value),_op="relu",_children=(self))
         def _backward():
@@ -109,7 +123,7 @@ class Value:
 
         return graph
 
-    def _top_sort(self) -> List['Value']:
+    def _topo_sort(self) -> List['Value']:
         visited = set()
         stack = []
         # use DFS for topological sorting 
@@ -120,9 +134,9 @@ class Value:
                     visit(child)
                 stack.append(node)
         visit(self)
-        return stack
+        return reversed(stack)
 
     def backward(self):
         self.grad = 1
-        for node in reversed(self._top_sort()):
+        for node in self._topo_sort():
             node._backward()
