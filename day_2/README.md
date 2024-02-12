@@ -10,6 +10,9 @@ PyTorch is an open-source machine learning library based on the Torch library. I
 - **Autograd:** PyTorch's automatic differentiation engine that powers neural network training.
 - **Neural Networks:** PyTorch provides the `torch.nn` module to help us in creating and training of the neural network.
 
+**NOTE** pytorch intro section in `pytorch_intro` cotains basic pytorch intro jupyter notebooks curated from github repos
+- [pytorch-tensor and model intro](https://github.com/buomsoo-kim/PyTorch-learners-tutorial)
+- [mnist notebook](https://github.com/jiuntian/pytorch-mnist-example)
 ## Types of neural networks
 ### CNN
 ![cnn](./assets/cnn.jpg)
