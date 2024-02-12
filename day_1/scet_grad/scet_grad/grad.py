@@ -44,6 +44,9 @@ class Value:
 
     def __rmul__(self, other: Union[int, float, 'Value']) -> "Value":
         return self * other
+        
+    def __neg__(self):
+        return -1*self
 
     def __sub__(self, other: Union[int, float, 'Value']) -> "Value":
         return self+ (other*-1)
@@ -63,30 +66,48 @@ class Value:
         return out
     
 
-    def __true_div__(self, other: Union[int, float, 'Value']) -> "Value":
-        out = self*other**-1
-        return out
-    def __rtrue_div__(self, other: Union[int, float, 'Value']) -> "Value":
-        out = other*self**-1
+    def __truediv__(self, other: Union[int, float, 'Value']) -> "Value":
+        out = self*(other**-1)
         return out
 
-    def relu(self)->'Value':
-        out=Value(value=max(0,self.value),_op="relu",_children=(self))
-        def _backward():
-            self.grad+=1 if self.value>0 else 0 * out.grad
-        out._backward=_backward
+    def __rtruediv__(self, other: Union[int, float, 'Value']) -> "Value":
+        out = other*(self**-1)
+        return out
     
     def exp(self)->'Value':
-        out=Value(value=np.exp(self.value),_op="exp",_children=(self))
+        out=Value(value=float(np.exp(self.value)),_op="exp",_children=(self,))
         def _backward():
             self.grad+=np.exp(self.value)*out.grad
         out._backward=_backward
         return out
 
+    def log(self)->'Value':
+        out=Value(value=float(np.log(self.value)),_op="log",_children=(self,))
+        def _backward():
+            self.grad+=1/(self.value)*out.grad
+        out._backward=_backward
+        return out
+
+    def relu(self)->'Value':
+        out=Value(value=max(0,self.value),_op="relu",_children=(self,))
+        def _backward():
+            self.grad+=1 if self.value>0 else 0 * out.grad
+        out._backward=_backward
+        return out
+
     def tanh(self)->'Value':
-        out=Value(value=np.tanh, _op="tanh",_children=(self))
+        out=Value(value=np.tanh(self.value), _op="tanh",_children=(self,))
         def _backward():
             self.grad+=(1-np.tanh(self.value)**2)*out.grad
+        out._backward=_backward
+        return out
+    
+    def sigmoid(self)->'Value':
+        _sigmoid=lambda x:1/(1+np.exp(-x))
+
+        out=Value(value=_sigmoid(self.value), _op="sigmoid",_children=(self,))
+        def _backward():
+            self.grad+=_sigmoid(self.value)*(1-_sigmoid(self.value))*out.grad
         out._backward=_backward
         return out
 
@@ -140,3 +161,7 @@ class Value:
         self.grad = 1
         for node in self._topo_sort():
             node._backward()
+
+    def zero_grad(self):
+        for node in self._topo_sort():
+            node.grad = 0

@@ -8,7 +8,7 @@ The workshop was designed to provide a hands-on experience in deep learning. The
 
 ### Day 1: Developing a Minimal Autograd System and a Neural Network
 
-On the first day, we focused on developing a minimal autograd system and a neural network based on [Andej Karpathy's micrograd](https://github.com/karpathy/micrograd). This involved understanding the basics of automatic differentiation, implementing a simple autograd system from scratch, and then using this system to build a neural network.
+On the first day, we focused on developing a minimal autograd system and a neural network based on [Andej Karpathy's micrograd](https://github.com/karpathy/micrograd) with some extra functionalities. This involved understanding the basics of automatic differentiation, implementing a simple autograd system from scratch, and then using this system to build a neural network.
 
 ### Day 2: Introduction to PyTorch and Transformers
 
@@ -18,10 +18,10 @@ On the second day, we introduced production libraries such as PyTorch. We built 
 
 The repository is structured as follows:
 
-- `day_1/`: Contains the notebooks and code for developing a minimal autograd system and a neural network.
-- `day_2/`: Contains the notebooks and code for building models using PyTorch and an introduction to LLMs and Transformers.
+-   `day_1/`: Contains the notebooks and code for developing a minimal autograd system and a neural network.
+-   `day_2/`: Contains the notebooks and code for building models using PyTorch and an introduction to LLMs and Transformers.
 
-- `pre-req/`: Contains prerequisite information and miscellaneous details necessary for the workshop.
+-   `pre-req/`: Contains prerequisite information and miscellaneous details necessary for the workshop.
 
 ## Usage
 
