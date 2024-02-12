@@ -19,7 +19,7 @@ On the second day, we introduced production libraries such as PyTorch. We built 
 The repository is structured as follows:
 
 -   `day_1/`: Contains the notebooks and code for developing a minimal autograd system and a neural network.
--   `day_2/`: Contains the notebooks and code for building models using PyTorch and an introduction to LLMs and Transformers.
+-   `day_2/`: Contains the notebooks and code for building models using PyTorch and an introduction to RL algorithms and Transformers.
 
 -   `pre-req/`: Contains prerequisite information and miscellaneous details necessary for the workshop.
 
