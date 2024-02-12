@@ -61,7 +61,7 @@ class Value:
                     _op="**", _children=(self, other))
         def _backward():
             self.grad+=other.value*self.value**(other.value-1)*out.grad
-            other.grad+=self.value**other.value*np.log(self.value)*out.grad
+            other.grad+=out.value*np.log(self.value)*out.grad
         out._backward = _backward
         return out
     
@@ -77,7 +77,7 @@ class Value:
     def exp(self)->'Value':
         out=Value(value=float(np.exp(self.value)),_op="exp",_children=(self,))
         def _backward():
-            self.grad+=np.exp(self.value)*out.grad
+            self.grad+=out.value*out.grad
         out._backward=_backward
         return out
 
@@ -98,7 +98,7 @@ class Value:
     def tanh(self)->'Value':
         out=Value(value=np.tanh(self.value), _op="tanh",_children=(self,))
         def _backward():
-            self.grad+=(1-np.tanh(self.value)**2)*out.grad
+            self.grad+=(1-out.value**2)*out.grad
         out._backward=_backward
         return out
     
@@ -107,7 +107,7 @@ class Value:
 
         out=Value(value=_sigmoid(self.value), _op="sigmoid",_children=(self,))
         def _backward():
-            self.grad+=_sigmoid(self.value)*(1-_sigmoid(self.value))*out.grad
+            self.grad+=out.value*(1-out.value)*out.grad
         out._backward=_backward
         return out
 
